@@ -5,11 +5,19 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"go.uber.org/zap"
 )
 
 func main() {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
+			ctx.Status(fiber.StatusInternalServerError).SendString("Error:Sorry. Can't do it bro.")
+			return nil
+		},
+	})
+
+	app.Use(recover.New())
 	logger, _ := zap.NewProduction()
 	defer logger.Sync()
 
