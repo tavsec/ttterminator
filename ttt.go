@@ -150,8 +150,12 @@ func findBestMove(board [3][3]rune, aiPlayer rune) (int, int) {
 }
 
 func parseBoard(movesString string) [3][3]rune {
-	moves := strings.Split(movesString, "_")
+
 	board := [3][3]rune{{Empty, Empty, Empty}, {Empty, Empty, Empty}, {Empty, Empty, Empty}}
+	if movesString == "" {
+		return board
+	}
+	moves := strings.Split(movesString, "_")
 
 	for _, move := range moves {
 		split := strings.Split(move, "-")
